@@ -7,6 +7,6 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.AddNote
     {
         public string? Title { get; set; }
         public string? Text { get; set; }
-        public Guid TagId { get; set; }
+        public List<Guid> TagId { get; set; }
     }
 }

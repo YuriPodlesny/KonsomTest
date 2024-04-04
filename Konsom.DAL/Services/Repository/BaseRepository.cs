@@ -37,7 +37,7 @@ namespace Konsom.DAL.Services.Repository
             return await _db.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetValue(Guid? id)
+        public async Task<T?> GetById(Guid? id)
         {
             return await _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }

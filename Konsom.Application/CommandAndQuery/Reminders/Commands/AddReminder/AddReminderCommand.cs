@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Konsom.Domain;
+using MediatR;
 
-namespace Konsom.Domain
+namespace Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder
 {
-    public class Reminder : BaseEntity
+    public class AddReminderCommand : IRequest<Unit>
     {
         public string Title { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;

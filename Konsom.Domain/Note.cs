@@ -11,7 +11,6 @@ namespace Konsom.Domain
         public string Title { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
 
-        public Guid TagId { get; set; }
-        public Tag? Tag { get; set; }
+        public IList<Tag> Tag { get; set; } = new List<Tag>();
     }
 }

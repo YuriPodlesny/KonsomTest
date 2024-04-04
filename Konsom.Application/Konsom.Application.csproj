@@ -23,8 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CommandAndQuery\Notes\Queries\" />
-    <Folder Include="Models\Reminder\" />
+    <Folder Include="CommandAndQuery\Reminders\Queries\" />
     <Folder Include="Models\Tag\" />
   </ItemGroup>
 
