@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Konsom.Application.Interfaces;
 using Konsom.Application.Models.Reminder;
+using Konsom.DAL.Repository;
 using Konsom.Domain;
 using MediatR;
 
