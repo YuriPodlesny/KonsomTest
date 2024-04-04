@@ -1,4 +1,4 @@
-﻿using Konsom.DAL.Repository;
+﻿using Konsom.Application.Interfaces;
 using Konsom.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +23,7 @@ namespace Konsom.DAL.Services.Repository
 
         public async Task<bool> Delete(Guid id)
         {
-            T entity = await _db.Set<T>().FirstAsync(x=> x.Id == id);
+            T entity = await _db.Set<T>().FirstAsync(x => x.Id == id);
             if (entity == null)
             {
                 return false;

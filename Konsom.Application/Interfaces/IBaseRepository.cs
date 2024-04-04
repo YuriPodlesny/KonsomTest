@@ -1,4 +1,4 @@
-﻿namespace Konsom.DAL.Repository
+﻿namespace Konsom.Application.Interfaces
 {
     public interface IBaseRepository<T>
         where T : class

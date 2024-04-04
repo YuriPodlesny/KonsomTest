@@ -1,6 +1,6 @@
 ﻿using Konsom.Domain;
 
-namespace Konsom.DAL.Repository
+namespace Konsom.Application.Interfaces
 {
     public interface ITagRepository : IBaseRepository<Tag>
     {

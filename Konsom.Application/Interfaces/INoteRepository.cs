@@ -1,4 +1,5 @@
-﻿using Konsom.Domain;
+﻿using Konsom.Application.Interfaces;
+using Konsom.Domain;
 
 namespace Konsom.DAL.Repository
 {

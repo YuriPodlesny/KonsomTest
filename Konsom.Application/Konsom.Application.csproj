@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ComandAndQuery\**" />
+    <EmbeddedResource Remove="ComandAndQuery\**" />
+    <None Remove="ComandAndQuery\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
   </ItemGroup>
 
@@ -15,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ComandAndQuery\" />
+    <Folder Include="CommandAndQuery\Notes\Queries\" />
+    <Folder Include="Models\Reminder\" />
+    <Folder Include="Models\Tag\" />
   </ItemGroup>
 
 </Project>
