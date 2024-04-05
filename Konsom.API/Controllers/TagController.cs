@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Konsom.API.Models;
-using Konsom.API.Models.Dto;
 using Konsom.Application.CommandAndQuery.Tags.Commands.AddTag;
 using Konsom.Application.CommandAndQuery.Tags.Commands.DeleteTag;
 using Konsom.Application.CommandAndQuery.Tags.Commands.UpdateTag;
 using Konsom.Application.CommandAndQuery.Tags.Queries.GetTag;
 using Konsom.Application.CommandAndQuery.Tags.Queries.GetTags;
+using Konsom.Application.Models;
+using Konsom.Application.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,25 +32,28 @@ namespace Konsom.API.Controllers
             return Ok(_response);
         }
 
-        
+        [HttpDelete]
         public async Task<ActionResult<APIResponse>> Delete([FromBody] Guid id)
         {
             await _mediator.Send(new DeleteTagCommand(id), CancellationToken.None);
             return Ok(_response);
         }
 
+        [HttpPut]
         public async Task<ActionResult<APIResponse>> Update([FromBody] TagUpdateDTO updateDTO)
         {
             await _mediator.Send(_mapper.Map<UpdateTagCommand>(updateDTO), CancellationToken.None);
             return Ok(_response);
         }
 
+        [HttpGet]
         public async Task<ActionResult<APIResponse>> GetTag([FromBody] Guid id)
         {
             _response.Result = await _mediator.Send(new GetTagByIdQuery(id), CancellationToken.None);
             return Ok(_response);
         }
 
+        [HttpGet]
         public async Task<ActionResult<APIResponse>> GetTags()
         {
             _response.Result = await _mediator.Send(new GetTagsQuery(), CancellationToken.None);

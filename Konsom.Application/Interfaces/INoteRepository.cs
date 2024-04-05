@@ -1,7 +1,6 @@
-﻿using Konsom.Application.Interfaces;
-using Konsom.Domain;
+﻿using Konsom.Domain;
 
-namespace Konsom.DAL.Repository
+namespace Konsom.Application.Interfaces
 {
     public interface INoteRepository : IBaseRepository<Note>
     {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Konsom.Application.Models.Reminder;
-using Konsom.DAL.Repository;
+using Konsom.Application.Models.Dto;
+using Konsom.Application.Interfaces;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders

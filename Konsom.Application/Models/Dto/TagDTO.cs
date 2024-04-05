@@ -1,4 +1,4 @@
-﻿namespace Konsom.Application.Models.Tag
+﻿namespace Konsom.Application.Models.Dto
 {
     public class TagDTO
     {

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Konsom.API.Models
+namespace Konsom.Application.Models
 {
     public class APIResponse
     {

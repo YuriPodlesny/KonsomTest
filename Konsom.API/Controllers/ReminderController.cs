@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Konsom.API.Models;
-using Konsom.API.Models.Dto;
-using Konsom.Application.CommandAndQuery.Notes.Commands.AddNote;
 using Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Commands.DeleteReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Commands.UpdateReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders;
+using Konsom.Application.Models;
+using Konsom.Application.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

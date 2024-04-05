@@ -1,6 +1,6 @@
-﻿namespace Konsom.API.Models.Dto
+﻿namespace Konsom.Application.Models.Dto
 {
-    public class TagUpdateDTO
+    public class TagCreateDTO
     {
         public string Name { get; set; } = string.Empty;
     }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Konsom.DAL.Repository;
+using Konsom.Application.Interfaces;
 using Konsom.Domain;
 using MediatR;
 

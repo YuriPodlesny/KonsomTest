@@ -1,4 +1,4 @@
-﻿using Konsom.Application.Models.Reminder;
+﻿using Konsom.Application.Models.Dto;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders

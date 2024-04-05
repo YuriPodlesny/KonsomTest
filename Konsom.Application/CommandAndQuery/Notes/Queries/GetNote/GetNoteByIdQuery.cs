@@ -1,4 +1,4 @@
-﻿using Konsom.Application.Models.Note;
+﻿using Konsom.Application.Models.Dto;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNote

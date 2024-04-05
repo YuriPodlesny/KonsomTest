@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Konsom.Application.Interfaces;
-using Konsom.Application.Models.Tag;
+using Konsom.Application.Models.Dto;    
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTag

@@ -1,8 +1,8 @@
 ﻿using Konsom.Domain;
 
-namespace Konsom.API.Models.Dto
+namespace Konsom.Application.Models.Dto
 {
-    public class NoteUpdateDTO
+    public class NoteCreateDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;

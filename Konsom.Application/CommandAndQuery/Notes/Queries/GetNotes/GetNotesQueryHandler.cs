@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Konsom.Application.Models.Note;
-using Konsom.DAL.Repository;
-using Konsom.Domain;
+using Konsom.Application.Models.Dto;
+using Konsom.Application.Interfaces;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes
