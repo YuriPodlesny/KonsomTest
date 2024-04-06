@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using Konsom.Application.Interfaces;
-using Konsom.Application.Models.Dto;    
+using Konsom.Application.Models.Dto;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTag
@@ -18,8 +19,28 @@ namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTag
 
         public async Task<TagDTO> Handle(GetTagByIdQuery request, CancellationToken cancellationToken)
         {
-            var tagFromDb = await _repository.GetById(request.Id);
-            return _mapper.Map<TagDTO>(tagFromDb);
+            try
+            {
+                var getTagQueryValidator = new GetTagByIdQueryValidator();
+                ValidationResult result = getTagQueryValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+                var tagFromDb = await _repository.GetById(request.Id);
+
+                if (tagFromDb == null)
+                {
+                    throw new Exception("Данные не найдены");
+                }
+
+                return _mapper.Map<TagDTO>(tagFromDb);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

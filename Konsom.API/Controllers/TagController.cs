@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using Konsom.Application.CommandAndQuery.Tags.Commands.AddTag;
+﻿using Konsom.Application.CommandAndQuery.Tags.Commands.AddTag;
 using Konsom.Application.CommandAndQuery.Tags.Commands.DeleteTag;
 using Konsom.Application.CommandAndQuery.Tags.Commands.UpdateTag;
 using Konsom.Application.CommandAndQuery.Tags.Queries.GetTag;
 using Konsom.Application.CommandAndQuery.Tags.Queries.GetTags;
 using Konsom.Application.Models;
-using Konsom.Application.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Konsom.API.Controllers
 {
@@ -16,49 +15,120 @@ namespace Konsom.API.Controllers
     public class TagController : ControllerBase
     {
         private APIResponse _response;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public TagController(IMapper mapper, IMediator mediator)
+        public TagController(IMediator mediator)
         {
             _response = new();
-            _mapper = mapper;
             _mediator = mediator;
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<APIResponse>> Create([FromBody] TagCreateDTO createDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> Create([FromBody] AddTagCommand create)
         {
-            await _mediator.Send(_mapper.Map<AddTagCommand>(createDTO), CancellationToken.None);
-            return Ok(_response);
+            try
+            {
+                await _mediator.Send(create, CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpDelete("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> Delete(Guid id)
         {
-            await _mediator.Send(new DeleteTagCommand(id), CancellationToken.None);
-            return Ok(_response);
+            try
+            {
+                await _mediator.Send(new DeleteTagCommand(id), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
+
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<APIResponse>> Update([FromBody] TagUpdateDTO updateDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> Update([FromBody] UpdateTagCommand update)
         {
-            await _mediator.Send(_mapper.Map<UpdateTagCommand>(updateDTO), CancellationToken.None);
-            return Ok(_response);
+            try
+            {
+                await _mediator.Send(update, CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
+
         }
 
         [HttpGet("get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetTag(Guid id)
         {
-            _response.Result = await _mediator.Send(new GetTagByIdQuery(id), CancellationToken.None);
-            return Ok(_response);
+            try
+            {
+                _response.Result = await _mediator.Send(new GetTagByIdQuery(id), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpGet("get-all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetTags()
         {
-            _response.Result = await _mediator.Send(new GetTagsQuery(), CancellationToken.None);
-            return Ok(_response);
+            try
+            {
+                _response.Result = await _mediator.Send(new GetTagsQuery(), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
+            
         }
     }
 }

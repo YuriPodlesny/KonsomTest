@@ -18,8 +18,21 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders
 
         public async Task<List<ReminderDTO>> Handle(GetRemindersQuery request, CancellationToken cancellationToken)
         {
-            var remindersFromDb = await _repository.GetAllAsync();
-            return _mapper.Map<List<ReminderDTO>>(remindersFromDb);
+            try
+            {
+                var remindersFromDb = await _repository.GetAllAsync();
+                if (remindersFromDb == null)
+                {
+                    throw new Exception("Данные не найдены");
+                }
+
+                return _mapper.Map<List<ReminderDTO>>(remindersFromDb);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
     }
 }

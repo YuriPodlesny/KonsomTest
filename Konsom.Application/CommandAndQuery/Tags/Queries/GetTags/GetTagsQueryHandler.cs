@@ -18,8 +18,21 @@ namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTags
 
         public async Task<List<TagDTO>> Handle(GetTagsQuery request, CancellationToken cancellationToken)
         {
-            var tagsFromDB = await _repository.GetAllAsync();
-            return _mapper.Map<List<TagDTO>>(tagsFromDB);
+            try
+            {
+                var tagsFromDB = await _repository.GetAllAsync();
+                if (tagsFromDB == null)
+                {
+                    throw new Exception("Данные не найдены");
+                }
+
+                return _mapper.Map<List<TagDTO>>(tagsFromDB);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using Konsom.Application.Interfaces;
 using Konsom.Domain;
 using MediatR;
@@ -18,8 +19,21 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Commands.UpdateReminder
 
         public async Task<Unit> Handle(UpdateReminderCommand request, CancellationToken cancellationToken)
         {
-            await _repository.Update(_mapper.Map<Reminder>(request));
-            return Unit.Value;
+            try
+            {
+                var updateReminderCommandValidator = new UpdateReminderCommandValidator();
+                ValidationResult result = updateReminderCommandValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+                await _repository.Update(_mapper.Map<Reminder>(request));
+                return Unit.Value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

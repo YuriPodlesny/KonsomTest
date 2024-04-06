@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes;
+using Konsom.Application.CommandAndQuery.Tags.Commands.AddTag;
+using Konsom.Application.CommandAndQuery.Tags.Commands.UpdateTag;
 using Konsom.Application.Models.Dto;
 using Konsom.Domain;
 
@@ -18,8 +19,10 @@ namespace Konsom.Application.Mapping
             CreateMap<Reminder, ReminderUpdateDTO>().ReverseMap();
 
             CreateMap<Tag, TagDTO>().ReverseMap();
-            CreateMap<Tag, TagCreateDTO>().ReverseMap();
-            CreateMap<Tag, TagUpdateDTO>().ReverseMap();
+            //CreateMap<Tag, TagCreateDTO>().ReverseMap();
+            //CreateMap<Tag, TagUpdateDTO>().ReverseMap();
+            CreateMap<Tag, AddTagCommand>().ReverseMap();
+            CreateMap<Tag, UpdateTagCommand>().ReverseMap();
         }
     }
 }

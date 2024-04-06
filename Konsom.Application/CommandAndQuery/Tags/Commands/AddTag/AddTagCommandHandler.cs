@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using Konsom.Application.Interfaces;
 using Konsom.Domain;
 using MediatR;
@@ -18,7 +19,22 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.AddTag
 
         public async Task<Unit> Handle(AddTagCommand request, CancellationToken cancellationToken)
         {
-            await _repository.Create(_mapper.Map<Tag>(request));
+            try
+            {
+                var addTagCommandValidator = new AddTagCommandValidator();
+                ValidationResult result = addTagCommandValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+
+                await _repository.Create(_mapper.Map<Tag>(request));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+    
             return Unit.Value;
         }
     }

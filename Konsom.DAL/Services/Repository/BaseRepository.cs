@@ -24,10 +24,7 @@ namespace Konsom.DAL.Services.Repository
         public async Task<bool> Delete(Guid id)
         {
             T entity = await _db.Set<T>().FirstAsync(x => x.Id == id);
-            if (entity == null)
-            {
-                return false;
-            }
+            _db.Set<T>().Remove(entity);
             await _db.SaveChangesAsync();
             return true;
         }

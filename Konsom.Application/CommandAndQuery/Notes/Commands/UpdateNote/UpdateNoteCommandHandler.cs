@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Results;
 using Konsom.Application.Interfaces;
 using Konsom.Domain;
 using MediatR;
@@ -17,8 +18,22 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.UpdateNote
 
         public async Task<Unit> Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
         {
-            await _repository.Update(_mapper.Map<Note>(request));
-            return Unit.Value;
+            try
+            {
+                var updateNoteCommandValidator = new UpdateNoteCommandValidator();
+                ValidationResult result = updateNoteCommandValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+
+                await _repository.Update(_mapper.Map<Note>(request));
+                return Unit.Value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

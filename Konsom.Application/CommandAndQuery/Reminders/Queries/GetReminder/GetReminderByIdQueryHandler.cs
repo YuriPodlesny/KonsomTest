@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Konsom.Application.Models.Dto;
+using FluentValidation.Results;
 using Konsom.Application.Interfaces;
+using Konsom.Application.Models.Dto;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder
@@ -18,8 +19,28 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder
 
         public async Task<ReminderDTO> Handle(GetReminderByIdQuery request, CancellationToken cancellationToken)
         {
-            var reminderFromDb = await _repository.GetById(request.Id);
-            return _mapper.Map<ReminderDTO>(reminderFromDb);
+            try
+            {
+                var getReminderQueryValidator = new GetReminderByIdQueryValidator();
+                ValidationResult result = getReminderQueryValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+
+                var reminderFromDb = await _repository.GetById(request.Id);
+
+                if (reminderFromDb == null)
+                {
+                    throw new Exception("Данные не найдены");
+                }
+                return _mapper.Map<ReminderDTO>(reminderFromDb);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

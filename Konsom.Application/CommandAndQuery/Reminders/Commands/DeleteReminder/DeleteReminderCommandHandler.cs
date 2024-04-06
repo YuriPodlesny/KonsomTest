@@ -1,4 +1,5 @@
-﻿using Konsom.Application.Interfaces;
+﻿using FluentValidation.Results;
+using Konsom.Application.Interfaces;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Reminders.Commands.DeleteReminder
@@ -14,8 +15,22 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Commands.DeleteReminder
 
         public async Task<Unit> Handle(DeleteReminderCommand request, CancellationToken cancellationToken)
         {
-            await _repository.Delete(request.Id);
-            return Unit.Value;
+            try
+            {
+                var deleteReminderCommandValidator = new DeleteReminderCommandValidator();
+                ValidationResult result = deleteReminderCommandValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+                await _repository.Delete(request.Id);
+                return Unit.Value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

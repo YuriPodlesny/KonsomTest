@@ -18,8 +18,20 @@ namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes
 
         public async Task<List<NoteDTO>> Handle(GetNotesQuery request, CancellationToken cancellationToken)
         {
-            var notesFromDb = await _repository.GetAllAsync();
-            return _mapper.Map<List<NoteDTO>>(notesFromDb);
+            try
+            {
+                var notesFromDB = await _repository.GetAllAsync();
+                if (notesFromDB == null)
+                {
+                    throw new Exception("Данные не найдены");
+                }
+
+                return _mapper.Map<List<NoteDTO>>(notesFromDB);
+            }
+            catch (Exception)
+            {
+                throw;
+            } 
         }
     }
 }

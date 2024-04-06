@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using Konsom.Application.CommandAndQuery.Notes.Commands.AddNote;
+﻿using Konsom.Application.CommandAndQuery.Notes.Commands.AddNote;
 using Konsom.Application.CommandAndQuery.Notes.Commands.DeleteNote;
 using Konsom.Application.CommandAndQuery.Notes.Commands.UpdateNote;
 using Konsom.Application.CommandAndQuery.Notes.Queries.GetNote;
 using Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes;
 using Konsom.Application.Models;
-using Konsom.Application.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Konsom.API.Controllers
 {
@@ -16,49 +15,118 @@ namespace Konsom.API.Controllers
     public class NoteController : ControllerBase
     {
         private APIResponse _response;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public NoteController(IMapper mapper, IMediator mediator)
+        public NoteController(IMediator mediator)
         {
             _response = new();
-            _mapper = mapper;
             _mediator = mediator;
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<APIResponse>> Create([FromBody] NoteCreateDTO createDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> Create([FromBody] AddNoteCommand create)
         {
-            await _mediator.Send(_mapper.Map<AddNoteCommand>(createDTO), CancellationToken.None);
-            return _response;
+            try
+            {
+                await _mediator.Send(create, CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
+            
         }
 
         [HttpDelete("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> Delete(Guid id)
         {
-            await _mediator.Send(new DeleteNoteCommand(id), CancellationToken.None);
-            return _response;
+            try
+            {
+                await _mediator.Send(new DeleteNoteCommand(id), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<APIResponse>> Update([FromBody] NoteUpdateDTO updateDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> Update([FromBody] UpdateNoteCommand update)
         {
-            await _mediator.Send(_mapper.Map<UpdateNoteCommand>(updateDTO), CancellationToken.None);
-            return _response;
+            try
+            {
+                await _mediator.Send(update, CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpGet("get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetNote(Guid id)
         {
-            _response.Result = await _mediator.Send(new GetNoteByIdQuery(id), CancellationToken.None);
-            return _response;
+            try
+            {
+                _response.Result = await _mediator.Send(new GetNoteByIdQuery(id), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpGet("get-all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetNotes()
         {
-            _response.Result = await _mediator.Send(new GetNotesQuery(), CancellationToken.None);
-            return _response;
+            try
+            {
+                _response.Result = await _mediator.Send(new GetNotesQuery(), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
     }
 }

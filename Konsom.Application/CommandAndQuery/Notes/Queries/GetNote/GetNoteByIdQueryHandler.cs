@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Konsom.Application.Models.Dto;
+using FluentValidation.Results;
 using Konsom.Application.Interfaces;
+using Konsom.Application.Models.Dto;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNote
@@ -18,8 +19,27 @@ namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNote
 
         public async Task<NoteDTO> Handle(GetNoteByIdQuery request, CancellationToken cancellationToken)
         {
-            var noteFromDb = await _repository.GetById(request.Id);
-            return _mapper.Map<NoteDTO>(noteFromDb);
+            try
+            {
+                var getNoteQueryValidator = new GetNoteByIdQueryValidator();
+                ValidationResult result = getNoteQueryValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+                var noteFromDb = await _repository.GetById(request.Id);
+
+                if (noteFromDb == null)
+                {
+                    throw new Exception("Данные не найдены");
+                }
+
+                return _mapper.Map<NoteDTO>(noteFromDb);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

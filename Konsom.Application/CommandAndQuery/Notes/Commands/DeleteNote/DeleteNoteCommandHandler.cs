@@ -1,4 +1,5 @@
-﻿using Konsom.Application.Interfaces;
+﻿using FluentValidation.Results;
+using Konsom.Application.Interfaces;
 using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Notes.Commands.DeleteNote
@@ -13,8 +14,22 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.DeleteNote
 
         public async Task<Unit> Handle(DeleteNoteCommand request, CancellationToken cancellationToken)
         {
-            await _repository.Delete(request.Id);
-            return Unit.Value;
+            try
+            {
+                var deleteNoteCommandValidator = new DeleteNoteCommandValidator();
+                ValidationResult result = deleteNoteCommandValidator.Validate(request);
+                if (!result.IsValid)
+                {
+                    throw new Exception("Данные не валидны");
+                }
+                await _repository.Delete(request.Id);
+                return Unit.Value;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

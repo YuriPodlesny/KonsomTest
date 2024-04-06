@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder;
+﻿using Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Commands.DeleteReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Commands.UpdateReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders;
 using Konsom.Application.Models;
-using Konsom.Application.Models.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Konsom.API.Controllers
 {
@@ -16,49 +15,117 @@ namespace Konsom.API.Controllers
     public class ReminderController : ControllerBase
     {
         private APIResponse _response;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public ReminderController(IMapper mapper, IMediator mediator)
+        public ReminderController(IMediator mediator)
         {
             _response = new();
-            _mapper = mapper;
             _mediator = mediator;
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<APIResponse>> Create([FromBody] ReminderCreateDTO createDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> Create([FromBody] AddReminderCommand create)
         {
-            await _mediator.Send(_mapper.Map<AddReminderCommand>(createDTO), CancellationToken.None);
-            return _response;
+            try
+            {
+                await _mediator.Send(create, CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpDelete("delete")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> Delete(Guid id)
         {
-            await _mediator.Send(new DeleteReminderCommand(id), CancellationToken.None);
-            return _response;
+            try
+            {
+                await _mediator.Send(new DeleteReminderCommand(id), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult<APIResponse>> Update([FromBody] ReminderUpdateDTO updateDTO)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> Update([FromBody] UpdateReminderCommand update)
         {
-            await _mediator.Send(_mapper.Map<UpdateReminderCommand>(updateDTO), CancellationToken.None);
-            return _response;
+            try
+            {
+                await _mediator.Send(update, CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpGet("get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetReminder(Guid id)
         {
-            _response.Result = await _mediator.Send(new GetReminderByIdQuery(id), CancellationToken.None);
-            return _response;
+            try
+            {
+                _response.Result = await _mediator.Send(new GetReminderByIdQuery(id), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
         [HttpGet("get-all")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetReminders()
         {
-            _response.Result = await _mediator.Send(new GetRemindersQuery(), CancellationToken.None);
-            return _response;
+            try
+            {
+                _response.Result = await _mediator.Send(new GetRemindersQuery(), CancellationToken.None);
+                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorMessages.Add(ex.Message);
+                return BadRequest(_response);
+            }
         }
 
     }
