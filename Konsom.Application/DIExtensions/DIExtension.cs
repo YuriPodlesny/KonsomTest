@@ -41,6 +41,9 @@ namespace Konsom.Application.DIExtensions
                 .AddScoped<IRequestHandler<UpdateTagCommand, Unit>, UpdateTagCommandHandler>()
                 .AddScoped<IRequestHandler<GetTagByIdQuery, TagDTO>, GetTagByIdQueryHandler>()
                 .AddScoped<IRequestHandler<GetTagsQuery, List<TagDTO>>, GetTagsQueryHandler>();
+
+            //.AddAutoMapper(typeof(MappingConfig))
+            //.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
         }
     }
 }

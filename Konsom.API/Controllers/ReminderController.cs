@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Konsom.API.Controllers
 {
+    [Route("api/v{version:apiVersion}/function/reminder")]
     [ApiController]
     public class ReminderController : ControllerBase
     {
@@ -18,37 +19,42 @@ namespace Konsom.API.Controllers
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public ReminderController(APIResponse response, IMapper mapper, IMediator mediator)
+        public ReminderController(IMapper mapper, IMediator mediator)
         {
             _response = new();
             _mapper = mapper;
             _mediator = mediator;
         }
 
+        [HttpPost("create")]
         public async Task<ActionResult<APIResponse>> Create([FromBody] ReminderCreateDTO createDTO)
         {
             await _mediator.Send(_mapper.Map<AddReminderCommand>(createDTO), CancellationToken.None);
             return _response;
         }
 
-        public async Task<ActionResult<APIResponse>> Delete([FromBody] Guid id)
+        [HttpDelete("delete")]
+        public async Task<ActionResult<APIResponse>> Delete(Guid id)
         {
             await _mediator.Send(new DeleteReminderCommand(id), CancellationToken.None);
             return _response;
         }
 
+        [HttpPut("update")]
         public async Task<ActionResult<APIResponse>> Update([FromBody] ReminderUpdateDTO updateDTO)
         {
             await _mediator.Send(_mapper.Map<UpdateReminderCommand>(updateDTO), CancellationToken.None);
             return _response;
         }
 
-        public async Task<ActionResult<APIResponse>> GetReminder([FromBody] Guid id)
+        [HttpGet("get")]
+        public async Task<ActionResult<APIResponse>> GetReminder(Guid id)
         {
             _response.Result = await _mediator.Send(new GetReminderByIdQuery(id), CancellationToken.None);
             return _response;
         }
 
+        [HttpGet("get-all")]
         public async Task<ActionResult<APIResponse>> GetReminders()
         {
             _response.Result = await _mediator.Send(new GetRemindersQuery(), CancellationToken.None);

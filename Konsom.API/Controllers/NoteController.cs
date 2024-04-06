@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Konsom.API.Controllers
 {
-
+    [Route("api/v{version:apiVersion}/function/note")]
     [ApiController]
     public class NoteController : ControllerBase
     {
@@ -19,42 +19,42 @@ namespace Konsom.API.Controllers
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public NoteController(APIResponse response, IMapper mapper, IMediator mediator)
+        public NoteController(IMapper mapper, IMediator mediator)
         {
             _response = new();
             _mapper = mapper;
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<APIResponse>> Create([FromBody] NoteCreateDTO createDTO)
         {
             await _mediator.Send(_mapper.Map<AddNoteCommand>(createDTO), CancellationToken.None);
             return _response;
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<APIResponse>> Delete([FromBody] Guid id)
+        [HttpDelete("delete")]
+        public async Task<ActionResult<APIResponse>> Delete(Guid id)
         {
             await _mediator.Send(new DeleteNoteCommand(id), CancellationToken.None);
             return _response;
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<ActionResult<APIResponse>> Update([FromBody] NoteUpdateDTO updateDTO)
         {
             await _mediator.Send(_mapper.Map<UpdateNoteCommand>(updateDTO), CancellationToken.None);
             return _response;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<APIResponse>> Get([FromBody] Guid id)
+        [HttpGet("get")]
+        public async Task<ActionResult<APIResponse>> GetNote(Guid id)
         {
             _response.Result = await _mediator.Send(new GetNoteByIdQuery(id), CancellationToken.None);
             return _response;
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<APIResponse>> GetNotes()
         {
             _response.Result = await _mediator.Send(new GetNotesQuery(), CancellationToken.None);

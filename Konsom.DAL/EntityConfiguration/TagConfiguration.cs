@@ -12,6 +12,9 @@ namespace Konsom.DAL.EntityConfiguration
 
             builder.HasMany(x => x.Notes)
                 .WithMany(x => x.Tag);
+
+            builder.HasMany(x => x.Peminders)
+                .WithMany(x => x.Tag);
         }
     }
 }

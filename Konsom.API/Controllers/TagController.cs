@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Konsom.API.Controllers
 {
+    [Route("api/v{version:apiVersion}/function/tag")]
     [ApiController]
     public class TagController : ControllerBase
     {
@@ -25,35 +26,35 @@ namespace Konsom.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<APIResponse>> Create([FromBody] TagCreateDTO createDTO)
         {
             await _mediator.Send(_mapper.Map<AddTagCommand>(createDTO), CancellationToken.None);
             return Ok(_response);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult<APIResponse>> Delete([FromBody] Guid id)
+        [HttpDelete("delete")]
+        public async Task<ActionResult<APIResponse>> Delete(Guid id)
         {
             await _mediator.Send(new DeleteTagCommand(id), CancellationToken.None);
             return Ok(_response);
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<ActionResult<APIResponse>> Update([FromBody] TagUpdateDTO updateDTO)
         {
             await _mediator.Send(_mapper.Map<UpdateTagCommand>(updateDTO), CancellationToken.None);
             return Ok(_response);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<APIResponse>> GetTag([FromBody] Guid id)
+        [HttpGet("get")]
+        public async Task<ActionResult<APIResponse>> GetTag(Guid id)
         {
             _response.Result = await _mediator.Send(new GetTagByIdQuery(id), CancellationToken.None);
             return Ok(_response);
         }
 
-        [HttpGet]
+        [HttpGet("get-all")]
         public async Task<ActionResult<APIResponse>> GetTags()
         {
             _response.Result = await _mediator.Send(new GetTagsQuery(), CancellationToken.None);
