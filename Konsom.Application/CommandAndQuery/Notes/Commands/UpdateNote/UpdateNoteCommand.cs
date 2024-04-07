@@ -6,9 +6,9 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.UpdateNote
     public class UpdateNoteCommand : IRequest<Unit>
     {
         public Guid Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Text { get; set; } = string.Empty;
+        public string? Title { get; set; }
+        public string? Text { get; set; }
 
-        public IList<Tag> Tag { get; set; } = new List<Tag>();
+        public List<Tag>? Tag { get; set; }
     }
 }

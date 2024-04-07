@@ -3,6 +3,7 @@ using System;
 using Konsom.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Konsom.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240407120916_Create")]
+    partial class Create
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,21 +81,6 @@ namespace Konsom.DAL.Migrations
                     b.ToTable("Reminders");
                 });
 
-            modelBuilder.Entity("Konsom.Domain.ReminderTag", b =>
-                {
-                    b.Property<Guid>("ReminderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ReminderId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("ReminderTag");
-                });
-
             modelBuilder.Entity("Konsom.Domain.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -103,7 +91,12 @@ namespace Konsom.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("ReminderId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ReminderId");
 
                     b.ToTable("Tags");
                 });
@@ -127,23 +120,11 @@ namespace Konsom.DAL.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("Konsom.Domain.ReminderTag", b =>
+            modelBuilder.Entity("Konsom.Domain.Tag", b =>
                 {
-                    b.HasOne("Konsom.Domain.Reminder", "Reminder")
-                        .WithMany("ReminderTags")
-                        .HasForeignKey("ReminderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Konsom.Domain.Tag", "Tag")
-                        .WithMany("ReminderTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reminder");
-
-                    b.Navigation("Tag");
+                    b.HasOne("Konsom.Domain.Reminder", null)
+                        .WithMany("Tag")
+                        .HasForeignKey("ReminderId");
                 });
 
             modelBuilder.Entity("Konsom.Domain.Note", b =>
@@ -153,14 +134,12 @@ namespace Konsom.DAL.Migrations
 
             modelBuilder.Entity("Konsom.Domain.Reminder", b =>
                 {
-                    b.Navigation("ReminderTags");
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Konsom.Domain.Tag", b =>
                 {
                     b.Navigation("NoteTags");
-
-                    b.Navigation("ReminderTags");
                 });
 #pragma warning restore 612, 618
         }

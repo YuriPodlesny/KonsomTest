@@ -4,7 +4,11 @@
     {
         public string Name { get; set; } = string.Empty;
 
-        public IList<Note> Notes { get; } = new List<Note>();
-        public IList<Reminder> Peminders { get; } = new List<Reminder>();
+        public List<Note> Notes { get; } = new List<Note>();
+        public List<NoteTag> NoteTags { get; } = new List<NoteTag>();
+
+        
+        public List<Reminder> Reminders { get; } = new List<Reminder>();
+        public List<ReminderTag> ReminderTags { get; } = new List<ReminderTag>();
     }
 }

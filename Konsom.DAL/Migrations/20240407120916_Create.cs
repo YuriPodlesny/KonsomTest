@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Konsom.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Created : Migration
+    public partial class Create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,55 +43,37 @@ namespace Konsom.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    ReminderId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tags_Reminders_ReminderId",
+                        column: x => x.ReminderId,
+                        principalTable: "Reminders",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "NoteTag",
                 columns: table => new
                 {
-                    NotesId = table.Column<Guid>(type: "uuid", nullable: false),
+                    NoteId = table.Column<Guid>(type: "uuid", nullable: false),
                     TagId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoteTag", x => new { x.NotesId, x.TagId });
+                    table.PrimaryKey("PK_NoteTag", x => new { x.NoteId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_NoteTag_Notes_NotesId",
-                        column: x => x.NotesId,
+                        name: "FK_NoteTag_Notes_NoteId",
+                        column: x => x.NoteId,
                         principalTable: "Notes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_NoteTag_Tags_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tags",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReminderTag",
-                columns: table => new
-                {
-                    PemindersId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReminderTag", x => new { x.PemindersId, x.TagId });
-                    table.ForeignKey(
-                        name: "FK_ReminderTag_Reminders_PemindersId",
-                        column: x => x.PemindersId,
-                        principalTable: "Reminders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ReminderTag_Tags_TagId",
                         column: x => x.TagId,
                         principalTable: "Tags",
                         principalColumn: "Id",
@@ -104,9 +86,9 @@ namespace Konsom.DAL.Migrations
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReminderTag_TagId",
-                table: "ReminderTag",
-                column: "TagId");
+                name: "IX_Tags_ReminderId",
+                table: "Tags",
+                column: "ReminderId");
         }
 
         /// <inheritdoc />
@@ -116,16 +98,13 @@ namespace Konsom.DAL.Migrations
                 name: "NoteTag");
 
             migrationBuilder.DropTable(
-                name: "ReminderTag");
-
-            migrationBuilder.DropTable(
                 name: "Notes");
 
             migrationBuilder.DropTable(
-                name: "Reminders");
+                name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Reminders");
         }
     }
 }

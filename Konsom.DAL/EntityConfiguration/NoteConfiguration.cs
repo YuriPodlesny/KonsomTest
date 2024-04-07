@@ -8,7 +8,7 @@ namespace Konsom.DAL.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Note> builder)
         {
-            builder.HasKey(x => x.Id);
+            
         }
     }
 }

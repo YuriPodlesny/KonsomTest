@@ -6,6 +6,7 @@
         public string Text { get; set; } = string.Empty;
         public DateTime Time { get; set; } = DateTime.Now;
 
-        public IList<Tag> Tag { get; set; } = new List<Tag>();
+        public List<ReminderTag> ReminderTags { get; } = new List<ReminderTag>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

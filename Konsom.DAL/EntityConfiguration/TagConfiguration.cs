@@ -8,13 +8,13 @@ namespace Konsom.DAL.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasMany(e => e.Notes)
+                .WithMany(e => e.Tags)
+                .UsingEntity<NoteTag>();
 
-            builder.HasMany(x => x.Notes)
-                .WithMany(x => x.Tag);
-
-            builder.HasMany(x => x.Peminders)
-                .WithMany(x => x.Tag);
+            builder.HasMany(e => e.Reminders)
+                .WithMany(e => e.Tags)
+                .UsingEntity<ReminderTag>();
         }
     }
 }

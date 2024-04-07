@@ -5,6 +5,8 @@
         public string Title { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
 
-        public IList<Tag> Tag { get; set; } = new List<Tag>();
+
+        public List<NoteTag> NoteTags { get; } = new List<NoteTag>();
+        public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

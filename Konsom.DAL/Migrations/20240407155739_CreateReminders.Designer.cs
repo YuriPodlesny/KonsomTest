@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Konsom.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240406091646_Created")]
-    partial class Created
+    [Migration("20240407155739_CreateReminders")]
+    partial class CreateReminders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,21 @@ namespace Konsom.DAL.Migrations
                     b.ToTable("Notes");
                 });
 
+            modelBuilder.Entity("Konsom.Domain.NoteTag", b =>
+                {
+                    b.Property<Guid>("NoteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("NoteId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("NoteTag");
+                });
+
             modelBuilder.Entity("Konsom.Domain.Reminder", b =>
                 {
                     b.Property<Guid>("Id")
@@ -66,6 +81,21 @@ namespace Konsom.DAL.Migrations
                     b.ToTable("Reminders");
                 });
 
+            modelBuilder.Entity("Konsom.Domain.ReminderTag", b =>
+                {
+                    b.Property<Guid>("ReminderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("ReminderId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ReminderTag");
+                });
+
             modelBuilder.Entity("Konsom.Domain.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -81,64 +111,59 @@ namespace Konsom.DAL.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("NoteTag", b =>
+            modelBuilder.Entity("Konsom.Domain.NoteTag", b =>
                 {
-                    b.Property<Guid>("NotesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("NotesId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("NoteTag");
-                });
-
-            modelBuilder.Entity("ReminderTag", b =>
-                {
-                    b.Property<Guid>("PemindersId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("PemindersId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("ReminderTag");
-                });
-
-            modelBuilder.Entity("NoteTag", b =>
-                {
-                    b.HasOne("Konsom.Domain.Note", null)
-                        .WithMany()
-                        .HasForeignKey("NotesId")
+                    b.HasOne("Konsom.Domain.Note", "Note")
+                        .WithMany("NoteTags")
+                        .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Konsom.Domain.Tag", null)
-                        .WithMany()
+                    b.HasOne("Konsom.Domain.Tag", "Tag")
+                        .WithMany("NoteTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Note");
+
+                    b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("ReminderTag", b =>
+            modelBuilder.Entity("Konsom.Domain.ReminderTag", b =>
                 {
-                    b.HasOne("Konsom.Domain.Reminder", null)
-                        .WithMany()
-                        .HasForeignKey("PemindersId")
+                    b.HasOne("Konsom.Domain.Reminder", "Reminder")
+                        .WithMany("ReminderTags")
+                        .HasForeignKey("ReminderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Konsom.Domain.Tag", null)
-                        .WithMany()
+                    b.HasOne("Konsom.Domain.Tag", "Tag")
+                        .WithMany("ReminderTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Reminder");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("Konsom.Domain.Note", b =>
+                {
+                    b.Navigation("NoteTags");
+                });
+
+            modelBuilder.Entity("Konsom.Domain.Reminder", b =>
+                {
+                    b.Navigation("ReminderTags");
+                });
+
+            modelBuilder.Entity("Konsom.Domain.Tag", b =>
+                {
+                    b.Navigation("NoteTags");
+
+                    b.Navigation("ReminderTags");
                 });
 #pragma warning restore 612, 618
         }
