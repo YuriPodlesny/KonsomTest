@@ -4,11 +4,6 @@ using Konsom.Application.Interfaces;
 using Konsom.Application.Models.Dto;
 using Konsom.Tests.Infrastructure;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Konsom.Tests.Note.Query
 {
@@ -37,6 +32,6 @@ namespace Konsom.Tests.Note.Query
             result.Title.ShouldBe("Test1");
             result.Text.ShouldBe("Test1");
         }
- 
+
     }
 }

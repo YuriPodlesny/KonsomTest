@@ -45,10 +45,10 @@ namespace Konsom.API.Controllers
             
         }
 
-        [HttpDelete("delete")]
+        [HttpPost("delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> Delete(Guid id)
+        public async Task<ActionResult<APIResponse>> Delete([FromBody] Guid id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Konsom.API.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPost("update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> Update([FromBody] UpdateNoteCommand update)
@@ -87,10 +87,10 @@ namespace Konsom.API.Controllers
             }
         }
 
-        [HttpGet("get")]
+        [HttpPost("get")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> GetNote(Guid id)
+        public async Task<ActionResult<APIResponse>> GetNote([FromBody] Guid id)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace Konsom.API.Controllers
             }
         }
 
-        [HttpGet("get-all")]
+        [HttpPost("get-all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> GetNotes()

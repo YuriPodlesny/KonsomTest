@@ -1,17 +1,12 @@
 ﻿using Konsom.DAL;
 using Konsom.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Konsom.Tests.Infrastructure
 {
     public class NoteContextFactory
     {
-        public static Guid NoteIdForDelete = Guid.NewGuid(); 
+        public static Guid NoteIdForDelete = Guid.NewGuid();
         public static Guid NoteIdForUpdate = Guid.NewGuid();
         public static Guid NoteIdForGet = Guid.NewGuid();
 

@@ -1,6 +1,4 @@
-﻿using Konsom.Domain;
-
-namespace Konsom.Application.Models.Dto
+﻿namespace Konsom.Application.Models.Dto
 {
     public class ReminderDTO
     {
@@ -8,6 +6,6 @@ namespace Konsom.Application.Models.Dto
         public string Text { get; set; } = string.Empty;
         public DateTime Time { get; set; } = DateTime.Now;
 
-        public IList<Tag> Tag { get; set; } = new List<Tag>();
+        public IList<TagDTO> Tag { get; set; } = new List<TagDTO>();
     }
 }
