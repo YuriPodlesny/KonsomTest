@@ -11,6 +11,12 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.AddNote
         private readonly INoteRepository _repository;
         private readonly IMapper _mapper;
 
+
+        public AddNoteCommandHandler(INoteRepository repository) 
+        {
+            _repository = repository;
+        }
+
         public AddNoteCommandHandler(INoteRepository repository, IMapper mapper)
         {
             _repository = repository;

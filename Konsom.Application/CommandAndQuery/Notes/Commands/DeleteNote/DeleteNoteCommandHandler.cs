@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Konsom.Application.CommandAndQuery.Notes.Commands.DeleteNote
 {
-    internal class DeleteNoteCommandHandler : IRequestHandler<DeleteNoteCommand, Unit>
+    public class DeleteNoteCommandHandler : IRequestHandler<DeleteNoteCommand, Unit>
     {
         private readonly INoteRepository _repository;
         public DeleteNoteCommandHandler(INoteRepository repository)
