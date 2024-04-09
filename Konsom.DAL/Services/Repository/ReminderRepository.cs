@@ -12,7 +12,7 @@ namespace Konsom.DAL.Services.Repository
             _db = db;
         }
 
-        public override async Task<Reminder?> GetById(Guid? id)
+        public override async Task<Reminder> GetById(Guid id)
         {
             return await _db.ReminderTag.Where(e => e.ReminderId == id)
                 .Include(e => e.Reminder)

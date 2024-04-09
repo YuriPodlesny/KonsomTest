@@ -13,7 +13,7 @@ namespace Konsom.DAL.Services.Repository
         }
 
 
-        public override async Task<Note?> GetById(Guid? id)
+        public override async Task<Note> GetById(Guid id)
         {
             return await _db.NoteTag.Where(e => e.NoteId == id)
                 .Include(e => e.Note)

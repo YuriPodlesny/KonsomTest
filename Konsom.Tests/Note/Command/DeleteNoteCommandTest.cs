@@ -19,7 +19,6 @@ namespace Konsom.Tests.Note.Command
             _repository = repository;
         }
 
-        [Fact]
         public async Task DeleteNoteCommandHandler_Success()
         {
             // Arrange

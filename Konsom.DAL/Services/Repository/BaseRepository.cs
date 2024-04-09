@@ -14,19 +14,19 @@ namespace Konsom.DAL.Services.Repository
             _db = db;
         }
 
-        public virtual async Task<bool> Create(T entity)
+        public virtual async Task<T> Create(T entity)
         {
             await _db.Set<T>().AddAsync(entity);
             await _db.SaveChangesAsync();
-            return true;
+            return entity;
         }
 
-        public virtual async Task<bool> Delete(Guid id)
+        public virtual async Task<T> Delete(Guid id)
         {
             T entity = await _db.Set<T>().FirstAsync(x => x.Id == id);
             _db.Set<T>().Remove(entity);
             await _db.SaveChangesAsync();
-            return true;
+            return entity;
         }
 
         public virtual async Task<List<T>> GetAllAsync()
@@ -34,16 +34,16 @@ namespace Konsom.DAL.Services.Repository
             return await _db.Set<T>().ToListAsync();
         }
 
-        public virtual async Task<T?> GetById(Guid? id)
+        public virtual async Task<T> GetById(Guid id)
         {
-            return await _db.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            return await _db.Set<T>().FirstAsync(x => x.Id == id);
         }
 
-        public virtual async Task<bool> Update(T entity)
+        public virtual async Task<T> Update(T entity)
         {
             _db.Entry(entity).State = EntityState.Modified;
             await _db.SaveChangesAsync();
-            return true;
+            return entity;
         }
     }
 }

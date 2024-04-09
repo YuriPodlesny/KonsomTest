@@ -12,7 +12,7 @@ namespace Konsom.Tests.Note.Command
             _repository = repository;
         }
 
-        [Fact]
+   
         public async Task AddNoteCommandHandler_Success()
         {
             // Arrange

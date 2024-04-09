@@ -77,7 +77,7 @@ namespace Konsom.UnitTests.Mock
             var mockRepo = new Mock<INoteRepository>();
             mockRepo.Setup(e => e.GetAllAsync()).ReturnsAsync(noteTypes);
 
-            mockRepo.Setup(e => e.Create(It.IsAny<Domain.Note>())).Returns((Domain.Note noteType) =>
+            mockRepo.Setup(e => e.Create(It.IsAny<Domain.Note>())).ReturnsAsync((Domain.Note noteType) =>
             {
                 noteTypes.Add(noteType);
                 return noteType;

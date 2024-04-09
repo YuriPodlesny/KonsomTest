@@ -6,7 +6,7 @@
         public string Text { get; set; } = string.Empty;
 
 
-        public List<NoteTag> NoteTags { get; } = new List<NoteTag>();
+        public List<NoteTag> NoteTags { get; set; } = new List<NoteTag>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

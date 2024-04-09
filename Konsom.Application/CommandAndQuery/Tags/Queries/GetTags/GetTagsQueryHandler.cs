@@ -7,12 +7,12 @@ namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTags
 {
     public class GetTagsQueryHandler : IRequestHandler<GetTagsQuery, List<TagDTO>>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ITagRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetTagsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetTagsQueryHandler(ITagRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -20,7 +20,7 @@ namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTags
         {
             try
             {
-                var tagsFromDB = await _unitOfWork.TagRepository.GetAllAsync();
+                var tagsFromDB = await _repository.GetAllAsync();
                 if (tagsFromDB == null)
                 {
                     throw new Exception("Данные не найдены");

@@ -7,12 +7,12 @@ namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes
 {
     public class GetNotesQueryHandler : IRequestHandler<GetNotesQuery, List<NoteDTO>>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly INoteRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetNotesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetNotesQueryHandler(INoteRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -20,7 +20,7 @@ namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes
         {
             try
             {
-                var notesFromDB = await _unitOfWork.NoteRepository.GetAllAsync();
+                var notesFromDB = await _repository.GetAllAsync();
                 if (notesFromDB == null)
                 {
                     throw new Exception("Данные не найдены");

@@ -3,10 +3,10 @@
     public interface IBaseRepository<T>
         where T : class
     {
-        Task<bool> Create(T entity);
-        Task<bool> Update(T entity);
-        Task<bool> Delete(Guid id);
-        Task<T?> GetById(Guid? id);
+        Task<T> Create(T entity);
+        Task<T> Update(T entity);
+        Task<T> Delete(Guid id);
+        Task<T> GetById(Guid id);
         Task<List<T>> GetAllAsync();
     }
 }

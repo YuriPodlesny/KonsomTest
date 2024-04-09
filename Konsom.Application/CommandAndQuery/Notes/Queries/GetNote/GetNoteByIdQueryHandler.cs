@@ -8,12 +8,12 @@ namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNote
 {
     public class GetNoteByIdQueryHandler : IRequestHandler<GetNoteByIdQuery, NoteDTO>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly INoteRepository _repository;
         private readonly IMapper _mapper;
 
-        public GetNoteByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetNoteByIdQueryHandler(INoteRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -27,7 +27,7 @@ namespace Konsom.Application.CommandAndQuery.Notes.Queries.GetNote
                 {
                     throw new Exception("Данные не валидны");
                 }
-                var noteFromDb = await _unitOfWork.NoteRepository.GetById(request.Id);
+                var noteFromDb = await _repository.GetById(request.Id);
 
                 if (noteFromDb == null)
                 {

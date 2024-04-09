@@ -71,11 +71,13 @@ namespace Konsom.UnitTests.Note.Commands
         [Fact]
         public async Task InValid_Note_Added()
         {
-            _addNote.Text = string.Empty;
+            _addNote.Text = "TegTast1";
 
             var result = await _handler.Handle(_addNote, CancellationToken.None);
 
             var notes = await _mockUow.Object.NoteRepository.GetAllAsync();
+
+            notes.Count.ShouldBe(4);
 
             result.ShouldBeOfType<Unit>();
         }
