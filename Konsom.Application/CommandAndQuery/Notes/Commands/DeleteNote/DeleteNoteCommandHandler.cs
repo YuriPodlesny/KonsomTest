@@ -6,10 +6,10 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.DeleteNote
 {
     public class DeleteNoteCommandHandler : IRequestHandler<DeleteNoteCommand, Unit>
     {
-        private readonly INoteRepository _repository;
-        public DeleteNoteCommandHandler(INoteRepository repository)
+        private readonly IUnitOfWork _unitOfWork;
+        public DeleteNoteCommandHandler(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Unit> Handle(DeleteNoteCommand request, CancellationToken cancellationToken)
@@ -22,7 +22,7 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.DeleteNote
                 {
                     throw new Exception("Данные не валидны");
                 }
-                await _repository.Delete(request.Id);
+                await _unitOfWork.NoteRepository.Delete(request.Id);
                 return Unit.Value;
             }
             catch (Exception)

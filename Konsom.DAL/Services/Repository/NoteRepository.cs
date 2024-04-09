@@ -30,7 +30,7 @@ namespace Konsom.DAL.Services.Repository
                 }).FirstOrDefaultAsync(); 
         }
 
-        public override async Task<IEnumerable<Note>> GetAllAsync()
+        public override async Task<List<Note>> GetAllAsync()
         {
             return await _db.NoteTag
                 .Include(e => e.Note)

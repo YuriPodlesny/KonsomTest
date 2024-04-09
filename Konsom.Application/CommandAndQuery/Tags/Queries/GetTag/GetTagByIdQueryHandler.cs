@@ -8,12 +8,12 @@ namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTag
 {
     public class GetTagByIdQueryHandler : IRequestHandler<GetTagByIdQuery, TagDTO>
     {
-        private readonly ITagRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetTagByIdQueryHandler(ITagRepository repository, IMapper mapper)
+        public GetTagByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -27,7 +27,7 @@ namespace Konsom.Application.CommandAndQuery.Tags.Queries.GetTag
                 {
                     throw new Exception("Данные не валидны");
                 }
-                var tagFromDb = await _repository.GetById(request.Id);
+                var tagFromDb = await _unitOfWork.TagRepository.GetById(request.Id);
 
                 if (tagFromDb == null)
                 {

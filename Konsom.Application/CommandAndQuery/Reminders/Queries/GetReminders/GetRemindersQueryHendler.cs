@@ -7,12 +7,12 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders
 {
     public class GetRemindersQueryHendler : IRequestHandler<GetRemindersQuery, List<ReminderDTO>>
     {
-        private readonly IReminderRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetRemindersQueryHendler(IReminderRepository repository, IMapper mapper)
+        public GetRemindersQueryHendler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -20,7 +20,7 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders
         {
             try
             {
-                var remindersFromDb = await _repository.GetAllAsync();
+                var remindersFromDb = await _unitOfWork.ReminderRepository.GetAllAsync();
                 if (remindersFromDb == null)
                 {
                     throw new Exception("Данные не найдены");

@@ -30,7 +30,7 @@ namespace Konsom.DAL.Services.Repository
                 }).FirstOrDefaultAsync();
         }
 
-        public override async Task<IEnumerable<Reminder>> GetAllAsync()
+        public override async Task<List<Reminder>> GetAllAsync()
         {
             return await _db.ReminderTag
                 .Include(e => e.Reminder)

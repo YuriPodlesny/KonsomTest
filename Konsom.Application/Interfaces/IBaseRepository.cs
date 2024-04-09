@@ -7,6 +7,6 @@
         Task<bool> Update(T entity);
         Task<bool> Delete(Guid id);
         Task<T?> GetById(Guid? id);
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync();
     }
 }

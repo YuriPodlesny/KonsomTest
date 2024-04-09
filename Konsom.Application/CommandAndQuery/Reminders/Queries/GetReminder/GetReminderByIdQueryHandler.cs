@@ -8,12 +8,12 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder
 {
     public class GetReminderByIdQueryHandler : IRequestHandler<GetReminderByIdQuery, ReminderDTO>
     {
-        private readonly IReminderRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetReminderByIdQueryHandler(IReminderRepository repository, IMapper mapper)
+        public GetReminderByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -28,7 +28,7 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder
                     throw new Exception("Данные не валидны");
                 }
 
-                var reminderFromDb = await _repository.GetById(request.Id);
+                var reminderFromDb = await _unitOfWork.ReminderRepository.GetById(request.Id);
 
                 if (reminderFromDb == null)
                 {

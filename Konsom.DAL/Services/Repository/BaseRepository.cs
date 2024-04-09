@@ -29,7 +29,7 @@ namespace Konsom.DAL.Services.Repository
             return true;
         }
 
-        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAllAsync()
         {
             return await _db.Set<T>().ToListAsync();
         }
