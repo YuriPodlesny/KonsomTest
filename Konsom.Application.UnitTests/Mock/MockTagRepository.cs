@@ -1,11 +1,6 @@
 ﻿using Konsom.Application.Interfaces;
 using Konsom.Domain;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Konsom.UnitTests.Mock
 {
@@ -33,7 +28,7 @@ namespace Konsom.UnitTests.Mock
             };
 
             var mockRepo = new Mock<ITagRepository>();
-            mockRepo.Setup(e=>e.GetAllAsync()).ReturnsAsync(tagTypes);
+            mockRepo.Setup(e => e.GetAllAsync()).ReturnsAsync(tagTypes);
 
             mockRepo.Setup(e => e.Create(It.IsAny<Tag>())).ReturnsAsync((Tag tagType) =>
             {

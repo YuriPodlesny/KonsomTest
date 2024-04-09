@@ -6,11 +6,6 @@ using Konsom.UnitTests.Mock;
 using MediatR;
 using Moq;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Konsom.UnitTests.Tags.Commands
@@ -48,6 +43,8 @@ namespace Konsom.UnitTests.Tags.Commands
             var tag = await _mockUow.Object.TagRepository.GetAllAsync();
 
             result.ShouldBeOfType<Unit>();
+
+            tag.Count.ShouldBe(4);
         }
 
         [Fact]

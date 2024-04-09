@@ -7,11 +7,6 @@ using Konsom.UnitTests.Mock;
 using MediatR;
 using Moq;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Konsom.UnitTests.Reminders.Commands
@@ -65,6 +60,8 @@ namespace Konsom.UnitTests.Reminders.Commands
             var reminders = await _mockUow.Object.ReminderRepository.GetAllAsync();
 
             result.ShouldBeOfType<Unit>();
+
+            reminders.Count.ShouldBe(4);
         }
 
         [Fact]

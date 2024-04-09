@@ -1,20 +1,13 @@
 ﻿using AutoMapper;
+using Konsom.Application.CommandAndQuery.Notes.Commands.AddNote;
 using Konsom.Application.Interfaces;
 using Konsom.Application.Mapping;
-using Konsom.Application.CommandAndQuery.Notes;
-using Konsom.UnitTests.Mock;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Konsom.Application.CommandAndQuery.Notes.Commands.AddNote;
 using Konsom.Domain;
-using Xunit;
-using Shouldly;
-using Konsom.Application.Models.Dto;
+using Konsom.UnitTests.Mock;
 using MediatR;
+using Moq;
+using Shouldly;
+using Xunit;
 
 namespace Konsom.UnitTests.Note.Commands
 {
@@ -66,12 +59,14 @@ namespace Konsom.UnitTests.Note.Commands
             var notes = await _mockUow.Object.NoteRepository.GetAllAsync();
 
             result.ShouldBeOfType<Unit>();
+
+            notes.Count.ShouldBe(4);
         }
 
         [Fact]
         public async Task InValid_Note_Added()
         {
-            _command.Text = "TegTast1";
+            _command.Text = "Test";
 
             var result = await _handler.Handle(_command, CancellationToken.None);
 

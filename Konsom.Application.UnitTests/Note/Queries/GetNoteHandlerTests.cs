@@ -6,11 +6,6 @@ using Konsom.Application.Models.Dto;
 using Konsom.UnitTests.Mock;
 using Moq;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Konsom.UnitTests.Note.Queries

@@ -1,10 +1,5 @@
 ﻿using Konsom.Application.Interfaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Konsom.UnitTests.Mock
 {
@@ -15,10 +10,10 @@ namespace Konsom.UnitTests.Mock
             var mockUow = new Mock<IUnitOfWork>();
             var mockTagTypeRepo = MockTagRepository.GetTagRepository();
 
-            mockUow.Setup(e=>e.TagRepository).Returns(mockTagTypeRepo.Object);
+            mockUow.Setup(e => e.TagRepository).Returns(mockTagTypeRepo.Object);
 
             return mockUow;
         }
-        
+
     }
 }

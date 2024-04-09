@@ -12,7 +12,9 @@ namespace Konsom.DAL.DIExtension
                 .AddScoped<INoteRepository, NoteRepository>()
                 .AddScoped<IReminderRepository, ReminderRepository>()
                 .AddScoped<ITagRepository, TagRepository>()
-
+                
+                .AddScoped<IUnitOfWork, UnitOfWork>()
+                
                 .AddScoped<IBaseDbContext, ApplicationDBContext>();
         }
     }

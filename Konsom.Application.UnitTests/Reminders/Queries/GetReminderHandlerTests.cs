@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Konsom.Application.CommandAndQuery.Notes.Queries.GetNotes;
-using Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminder;
 using Konsom.Application.CommandAndQuery.Reminders.Queries.GetReminders;
 using Konsom.Application.Interfaces;
 using Konsom.Application.Mapping;
@@ -8,11 +6,6 @@ using Konsom.Application.Models.Dto;
 using Konsom.UnitTests.Mock;
 using Moq;
 using Shouldly;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Konsom.UnitTests.Reminders.Queries
