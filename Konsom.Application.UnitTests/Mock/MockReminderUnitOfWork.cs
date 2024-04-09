@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Konsom.UnitTests.Mock
 {
-    public static class MockUnitOfWork
+    public static class MockReminderUnitOfWork
     {
         public static Mock<IUnitOfWork> GetUnitOfWork()
         {
             var mockUow = new Mock<IUnitOfWork>();
-            var mockNoteTypeRepo = MockNoteTypeRepository.GetNoteRepository();
+            var mockReminderTypeRepo = MockReminderRepository.GetReminderRepository();
 
-            mockUow.Setup(x=>x.NoteRepository).Returns(mockNoteTypeRepo.Object);
+            mockUow.Setup(e=>e.ReminderRepository).Returns(mockReminderTypeRepo.Object);
 
             return mockUow;
         }

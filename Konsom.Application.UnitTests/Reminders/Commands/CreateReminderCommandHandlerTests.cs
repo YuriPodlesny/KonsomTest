@@ -1,33 +1,31 @@
 ﻿using AutoMapper;
+using Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder;
 using Konsom.Application.Interfaces;
 using Konsom.Application.Mapping;
-using Konsom.Application.CommandAndQuery.Notes;
+using Konsom.Domain;
 using Konsom.UnitTests.Mock;
+using MediatR;
 using Moq;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Konsom.Application.CommandAndQuery.Notes.Commands.AddNote;
-using Konsom.Domain;
 using Xunit;
-using Shouldly;
-using Konsom.Application.Models.Dto;
-using MediatR;
 
-namespace Konsom.UnitTests.Note.Commands
+namespace Konsom.UnitTests.Reminders.Commands
 {
-    public class CreateNoteCommandHandlerTests
+    public class CreateReminderCommandHandlerTests
     {
         private readonly IMapper _mapper;
         private readonly Mock<IUnitOfWork> _mockUow;
-        private readonly AddNoteCommand _command;
-        private readonly AddNoteCommandHandler _handler;
+        private readonly AddReminderCommand _command;
+        private readonly AddReminderCommandHandler _handler;
 
-        public CreateNoteCommandHandlerTests()
+        public CreateReminderCommandHandlerTests()
         {
-            _mockUow = MockNoteUnitOfWork.GetUnitOfWork();
+            _mockUow = MockReminderUnitOfWork.GetUnitOfWork();
 
             var mapperConfig = new MapperConfiguration(e =>
             {
@@ -35,13 +33,14 @@ namespace Konsom.UnitTests.Note.Commands
             });
 
             _mapper = mapperConfig.CreateMapper();
-            _handler = new AddNoteCommandHandler(_mockUow.Object, _mapper);
+            _handler = new AddReminderCommandHandler(_mockUow.Object, _mapper);
 
-            _command = new AddNoteCommand
+            _command = new AddReminderCommand
             {
-                Id = Guid.Parse("1bc525cf-1834-4175-ad7d-8da27bf8e733"),
-                Text = "Test1",
-                Title = "Test1",
+                Id = Guid.Parse("38acbb11-1d05-4297-9c90-5eec090717bf"),
+                Title = "TestTitle",
+                Text = "TestText",
+                Time = DateTime.Today,
                 Tags = new List<Tag>
                 {
                     new Tag
@@ -54,30 +53,28 @@ namespace Konsom.UnitTests.Note.Commands
                         Id = Guid.Parse("cb28c008-8566-4516-abf6-4ac137eef013"),
                         Name = "TegTest2"
                     }
-                },
+                }
             };
         }
 
         [Fact]
-        public async Task Valid_Note_Added()
+        public async Task Valid_Reminder_Added()
         {
             var result = await _handler.Handle(_command, CancellationToken.None);
 
-            var notes = await _mockUow.Object.NoteRepository.GetAllAsync();
+            var reminders = await _mockUow.Object.ReminderRepository.GetAllAsync();
 
             result.ShouldBeOfType<Unit>();
         }
 
         [Fact]
-        public async Task InValid_Note_Added()
+        public async Task InValid_Reminder_Added()
         {
-            _command.Text = "TegTast1";
-
             var result = await _handler.Handle(_command, CancellationToken.None);
 
-            var notes = await _mockUow.Object.NoteRepository.GetAllAsync();
+            var reminder = await _mockUow.Object.ReminderRepository.GetAllAsync();
 
-            notes.Count.ShouldBe(4);
+            reminder.Count.ShouldBe(4);
 
             result.ShouldBeOfType<Unit>();
         }

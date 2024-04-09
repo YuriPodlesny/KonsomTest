@@ -28,4 +28,8 @@
     <ProjectReference Include="..\Konsom.Application\Konsom.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Reminders\Queries\" />
+  </ItemGroup>
+
 </Project>
