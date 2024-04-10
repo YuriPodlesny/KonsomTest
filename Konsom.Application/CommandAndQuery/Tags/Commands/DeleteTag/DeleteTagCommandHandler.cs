@@ -7,12 +7,12 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.DeleteTag
 {
     public class DeleteTagCommandHandler : IRequestHandler<DeleteTagCommand, Unit>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ITagRepository _repository;
         private readonly IMapper _mapper;
 
-        public DeleteTagCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public DeleteTagCommandHandler(ITagRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -26,7 +26,7 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.DeleteTag
                 {
                     throw new Exception("Данные не валидны");
                 }
-                await _unitOfWork.TagRepository.Delete(request.Id);
+                await _repository.Delete(request.Id);
                 return Unit.Value;
             }
             catch (Exception)

@@ -8,12 +8,12 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder
 {
     public class AddReminderCommandHandler : IRequestHandler<AddReminderCommand, Unit>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IReminderRepository _repository;
         private readonly IMapper _mapper;
 
-        public AddReminderCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AddReminderCommandHandler(IReminderRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -28,7 +28,7 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Commands.AddReminder
                     throw new Exception("Данные не валидны");
                 }
 
-                await _unitOfWork.ReminderRepository.Create(_mapper.Map<Reminder>(request));
+                await _repository.Create(_mapper.Map<Reminder>(request));
                 return Unit.Value;
             }
             catch (Exception)

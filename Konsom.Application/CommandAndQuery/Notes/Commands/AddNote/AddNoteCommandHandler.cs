@@ -8,12 +8,12 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.AddNote
 {
     public class AddNoteCommandHandler : IRequestHandler<AddNoteCommand, Unit>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly INoteRepository _repository;
         private readonly IMapper _mapper;
 
-        public AddNoteCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AddNoteCommandHandler(INoteRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -28,7 +28,7 @@ namespace Konsom.Application.CommandAndQuery.Notes.Commands.AddNote
                     throw new Exception("Данные не валидны");
                 }
 
-                await _unitOfWork.NoteRepository.Create(_mapper.Map<Note>(request));
+                await _repository.Create(_mapper.Map<Note>(request));
                 return Unit.Value;
             }
             catch (Exception)

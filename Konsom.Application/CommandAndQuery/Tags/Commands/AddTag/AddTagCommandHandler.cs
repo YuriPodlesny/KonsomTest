@@ -8,12 +8,12 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.AddTag
 {
     public class AddTagCommandHandler : IRequestHandler<AddTagCommand, Unit>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ITagRepository _repository;
         private readonly IMapper _mapper;
 
-        public AddTagCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public AddTagCommandHandler(ITagRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -28,7 +28,7 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.AddTag
                     throw new Exception("Данные не валидны");
                 }
 
-                await _unitOfWork.TagRepository.Create(_mapper.Map<Tag>(request));
+                await _repository.Create(_mapper.Map<Tag>(request));
             }
             catch (Exception)
             {

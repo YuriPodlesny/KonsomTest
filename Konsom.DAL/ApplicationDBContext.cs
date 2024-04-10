@@ -24,6 +24,7 @@ namespace Konsom.DAL
             modelBuilder.ApplyConfiguration(new NoteConfiguration())
                         .ApplyConfiguration(new NoteTagConfiguration())
                         .ApplyConfiguration(new ReminderConfiguration())
+                        .ApplyConfiguration(new ReminderTagCongiguration())
                         .ApplyConfiguration(new TagConfiguration());
             
 

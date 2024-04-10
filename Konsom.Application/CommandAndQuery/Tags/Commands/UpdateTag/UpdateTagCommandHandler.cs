@@ -8,11 +8,11 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.UpdateTag
 {
     internal class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand, Unit>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ITagRepository _repository;
         private readonly IMapper _mapper;
-        public UpdateTagCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public UpdateTagCommandHandler(ITagRepository repository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
             _mapper = mapper;
         }
 
@@ -26,7 +26,7 @@ namespace Konsom.Application.CommandAndQuery.Tags.Commands.UpdateTag
                 {
                     throw new Exception("Данные не валидны");
                 }
-                await _unitOfWork.TagRepository.Update(_mapper.Map<Tag>(request));
+                await _repository.Update(_mapper.Map<Tag>(request));
                 return Unit.Value;
             }
             catch (Exception)

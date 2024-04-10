@@ -27,7 +27,7 @@ namespace Konsom.DAL.Services.Repository
                     {
                         e.Tag
                     }
-                }).FirstOrDefaultAsync();
+                }).FirstAsync();
         }
 
         public override async Task<List<Reminder>> GetAllAsync()

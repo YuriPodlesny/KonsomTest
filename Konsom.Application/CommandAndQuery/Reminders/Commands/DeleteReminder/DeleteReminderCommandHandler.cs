@@ -6,11 +6,11 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Commands.DeleteReminder
 {
     public class DeleteReminderCommandHandler : IRequestHandler<DeleteReminderCommand, Unit>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IReminderRepository _repository;
 
-        public DeleteReminderCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteReminderCommandHandler(IReminderRepository repository)
         {
-            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
         public async Task<Unit> Handle(DeleteReminderCommand request, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ namespace Konsom.Application.CommandAndQuery.Reminders.Commands.DeleteReminder
                 {
                     throw new Exception("Данные не валидны");
                 }
-                await _unitOfWork.ReminderRepository.Delete(request.Id);
+                await _repository.Delete(request.Id);
                 return Unit.Value;
             }
             catch (Exception)
